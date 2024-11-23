@@ -1,5 +1,38 @@
 import React, { useState } from 'react';
-import { ChevronDown } from 'lucide-react';
+import { ChevronLeft, Settings, ChevronDown } from 'lucide-react';
+
+const LeftButton = ({ button }: { button?: React.ReactNode }) => {
+  return (
+    <div className="absolute left-4 top-1/2 -translate-y-1/2 z-10">
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          alert('Back button clicked');
+        }}
+        className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+      >
+        <ChevronLeft size={24} />
+      </button>
+    </div>
+  );
+}
+
+const RightButton = ({ button }: { button?: React.ReactNode }) => {
+  return (
+    <div className="absolute right-4 top-1/2 -translate-y-1/2 z-10">
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          alert('Settings button clicked');
+        }}
+        className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+      >
+        <Settings size={24} />
+      </button>
+    </div>
+  );
+}
+
 
 const ChatHeader = ({
   name = "Alexa",
@@ -16,6 +49,11 @@ const ChatHeader = ({
       onClick={() => setIsExpanded(!isExpanded)}
     >
       <div className="flex flex-col justify-center items-center w-full">
+        {/* buttons */}
+        <LeftButton />
+        <RightButton />
+
+        {/* main content */}
         <div className="relative flex flex-row justify-center items-center w-full">
           <span
             className={`whitespace-nowrap font-miller pr-4 translate-y-[2px] overflow-hidden transition-all duration-250 ease-in-out text-xl ${isExpanded ? 'max-w-0 opacity-0 pr-0' : 'max-w-96 opacity-100'
