@@ -3,6 +3,7 @@
 import OpenAI from "openai";
 import { UIMessage } from "./types";
 import { ChatCompletionMessageParam } from "openai/resources/index.mjs";
+import { buildSystemPrompt } from "./agent";
 
 if (!process.env.OPENAI_API_KEY) {
   throw new Error("Missing OPENAI_API_KEY environment variable");
@@ -29,13 +30,20 @@ function uiMessageToOpenaiMessage(message: UIMessage): ChatCompletionMessagePara
 }
 
 export async function getCompletion(messages: UIMessage[]) {
+    const systemPrompt = await buildSystemPrompt();
     let openaiMessages = messages.length > 0 
         ? messages.map(uiMessageToOpenaiMessage)
         : [{role: "user", content: "write a haiku about ai"} as ChatCompletionMessageParam];
 
+    console.log("[getCompletion] systemPrompt", systemPrompt);
+    openaiMessages.unshift({role: "system", content: systemPrompt});
+
     const completion = await openai.chat.completions.create({
         model: "gpt-4", // Fixed typo in model name
-        messages: openaiMessages
+        messages: [
+            {role: "system", content: systemPrompt},
+            ...openaiMessages
+        ]
     });
     console.log("[getCompletion] completion", completion);
     console.log("[getCompletion] message", completion.choices[0]?.message);

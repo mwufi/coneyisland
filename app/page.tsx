@@ -157,6 +157,7 @@ sampleMessages = [
 // Example usage
 export default function Chat() {
   const [messages, setMessages] = useState([sampleMessages[0]]);
+  const [isTyping, setIsTyping] = useState(false);
 
   const handleSendMessage = (content: string) => {
     const newMessage: UIMessage = {
@@ -166,8 +167,10 @@ export default function Chat() {
       timestamp: new Date().toISOString()
     };
     setMessages([...messages, newMessage]);
+    setIsTyping(true);
 
     getCompletion([...messages, newMessage]).then((ai_message) => {
+      setIsTyping(false);
       setMessages([...messages, newMessage, ai_message]);
     });
   };
@@ -176,7 +179,7 @@ export default function Chat() {
     <div className="w-full h-full bg-white">
       <ChatContainer
         messages={messages}
-        isLoading={false}
+        isLoading={isTyping}
       />
       <ChatHeader
         name="Alexa"
