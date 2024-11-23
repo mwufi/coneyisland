@@ -4,6 +4,8 @@ import { useState } from "react";
 import { ChatContainer } from "./Chat";
 import ChatInput from "./ChatInput";
 import ChatHeader from "./ChatHeader";
+import { getCompletion } from "@/lib/ai/server_openai";
+import { UIMessage } from "@/lib/ai/types";
 
 let sampleMessages = [
   {
@@ -138,32 +140,36 @@ let sampleMessages = [
 sampleMessages = [
   {
     id: 1,
-    content: "hello",
+    content: "hey, what's up?",
     isUser: false,
     avatar: "https://friend.com/preset/0a6421aa-c019-462d-839b-bc5aa78f754a.jpg",
     timestamp: "2024-11-23T12:55:00"
   },
-  {
-    id: 2,
-    content: "hi",
-    isUser: true,
-    avatar: "https://images.freeimages.com/images/large-previews/ee0/joyful-puppy-splashing-happiness-0410-5697282.jpg?fmt=webp&w=500",
-    timestamp: "2024-11-23T12:56:00"
-  }
+  // {
+  //   id: 2,
+  //   content: "hi",
+  //   isUser: true,
+  //   avatar: "https://images.freeimages.com/images/large-previews/ee0/joyful-puppy-splashing-happiness-0410-5697282.jpg?fmt=webp&w=500",
+  //   timestamp: "2024-11-23T12:56:00"
+  // }
 ];
 
 // Example usage
 export default function Chat() {
-  const [messages, setMessages] = useState(sampleMessages);
+  const [messages, setMessages] = useState([sampleMessages[0]]);
 
-  const handleSendMessage = (content) => {
-    const newMessage = {
+  const handleSendMessage = (content: string) => {
+    const newMessage: UIMessage = {
       id: Date.now(),
       content,
       isUser: true,
       timestamp: new Date().toISOString()
     };
     setMessages([...messages, newMessage]);
+
+    getCompletion([...messages, newMessage]).then((ai_message) => {
+      setMessages([...messages, newMessage, ai_message]);
+    });
   };
 
   return (

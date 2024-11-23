@@ -41,6 +41,13 @@ const TimestampDivider = ({ timestamp }) => {
     const date = new Date(timestamp);
     const isToday = new Date().toDateString() === date.toDateString();
 
+    let formattedDate = '';
+    try {
+        formattedDate = format(date, 'h:mm a');
+    } catch (error) {
+        formattedDate = date.toJSON()
+    }
+
     return (
         <div className="flex justify-center items-center w-full font-favorit">
             <div className="flex flex-col justify-center items-center w-fit mt-4 mb-2">
@@ -50,7 +57,7 @@ const TimestampDivider = ({ timestamp }) => {
                     </span>
                     <span> </span>
                     <span className="text-stone-500 opacity-60">
-                        {format(date, 'h:mm a')}
+                        {formattedDate}
                     </span>
                 </h1>
                 <hr className="text-black w-full opacity-0" />
