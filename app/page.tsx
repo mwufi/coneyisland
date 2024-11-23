@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { ChatContainer } from "./Chat";
 import ChatInput from "./ChatInput";
+import ChatHeader from "./ChatHeader";
 
 let sampleMessages = [
   {
@@ -138,13 +139,15 @@ sampleMessages = [
   {
     id: 1,
     content: "hello",
-    isUser: true,
+    isUser: false,
+    avatar: "https://friend.com/preset/0a6421aa-c019-462d-839b-bc5aa78f754a.jpg",
     timestamp: "2024-11-23T12:55:00"
   },
   {
     id: 2,
     content: "hi",
-    isUser: false,
+    isUser: true,
+    avatar: "https://images.freeimages.com/images/large-previews/ee0/joyful-puppy-splashing-happiness-0410-5697282.jpg?fmt=webp&w=500",
     timestamp: "2024-11-23T12:56:00"
   }
 ];
@@ -165,12 +168,16 @@ export default function Chat() {
 
   return (
     <div className="w-full h-full bg-white">
-      <div className="border border-2 m-4">
-        <ChatContainer
-          messages={messages}
-          isLoading={false}
-        />
-      </div>
+      <ChatContainer
+        messages={messages}
+        isLoading={false}
+      />
+      <ChatHeader
+        name="Alexa"
+        avatar="https://friend.com/images/e18bbbaf-37cf-4edb-9df8-7edc53b3c21c.jpeg"
+        isOnline={true}
+        friendsSince="November 23, 2024"
+      />
       <ChatInput onSendMessage={handleSendMessage} />
     </div>
   );
