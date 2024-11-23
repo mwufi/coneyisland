@@ -4,7 +4,7 @@ import { useState } from "react";
 import { ChatContainer } from "./Chat";
 import ChatInput from "./ChatInput";
 
-const sampleMessages = [
+let sampleMessages = [
   {
     id: 1,
     content: "dino police where r u",
@@ -131,6 +131,21 @@ const sampleMessages = [
     isUser: false,
     avatar: "https://friend.com/preset/0a6421aa-c019-462d-839b-bc5aa78f754a.jpg",
     timestamp: "2024-11-23T13:00:00"
+  }
+];
+
+sampleMessages = [
+  {
+    id: 1,
+    content: "hello",
+    isUser: true,
+    timestamp: "2024-11-23T12:55:00"
+  },
+  {
+    id: 2,
+    content: "hi",
+    isUser: false,
+    timestamp: "2024-11-23T12:56:00"
   }
 ];
 

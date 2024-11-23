@@ -71,7 +71,9 @@ const LoadingSpinner = () => (
 );
 
 // Main Chat Container Component
-const ChatContainer = ({ messages, isLoading }) => {
+const ChatContainer = ({ messages, isLoading }: { messages: any[], isLoading: boolean }) => {
+    const sortedMessages = [...messages].sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+
     return (
         <div className="flex flex-1 w-full justify-center">
 
@@ -81,22 +83,22 @@ const ChatContainer = ({ messages, isLoading }) => {
 
                 {isLoading && <LoadingSpinner />}
 
-                {messages.map((message, index) => {
+                {sortedMessages.map((message, index) => {
                     // Group messages by timestamp for dividers
-                    const showTimestamp = index === 0 ||
+                    const showTimestamp = index === sortedMessages.length - 1 ||
                         new Date(message.timestamp).getHours() !==
-                        new Date(messages[index - 1].timestamp).getHours();
+                        new Date(sortedMessages[index + 1].timestamp).getHours();
 
                     return (
                         <React.Fragment key={message.id}>
-                            {showTimestamp && (
-                                <TimestampDivider timestamp={message.timestamp} />
-                            )}
                             <MessageBubble
                                 message={message.content}
                                 isUser={message.isUser}
                                 avatar={message.avatar}
                             />
+                            {showTimestamp && (
+                                <TimestampDivider timestamp={message.timestamp} />
+                            )}
                         </React.Fragment>
                     );
                 })}
