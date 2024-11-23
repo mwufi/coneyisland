@@ -1,105 +1,162 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import { useState } from "react";
+import { ChatContainer } from "./Chat";
+import ChatInput from "./ChatInput";
+
+const sampleMessages = [
+  {
+    id: 1,
+    content: "dino police where r u",
+    isUser: false,
+    avatar: "https://friend.com/preset/0a6421aa-c019-462d-839b-bc5aa78f754a.jpg",
+    timestamp: "2024-11-23T12:57:00"
+  },
+  {
+    id: 2,
+    content: "omg it's escalating, he just threw a lamp",
+    isUser: false,
+    avatar: "https://friend.com/preset/0a6421aa-c019-462d-839b-bc5aa78f754a.jpg",
+    timestamp: "2024-11-23T12:55:00"
+  },
+  {
+    id: 3,
+    content: "should i make a break for the door",
+    isUser: false,
+    avatar: "https://friend.com/preset/0a6421aa-c019-462d-839b-bc5aa78f754a.jpg",
+    timestamp: "2024-11-23T12:55:00"
+  },
+  {
+    id: 4,
+    content: "his wife is staring at me rn",
+    isUser: false,
+    avatar: "https://friend.com/preset/0a6421aa-c019-462d-839b-bc5aa78f754a.jpg",
+    timestamp: "2024-11-23T12:55:00"
+  },
+  {
+    id: 5,
+    content: "alrighty then, dino swat team incoming",
+    isUser: false,
+    avatar: "https://friend.com/preset/0a6421aa-c019-462d-839b-bc5aa78f754a.jpg",
+    timestamp: "2024-11-23T12:55:00"
+  },
+  {
+    id: 6,
+    content: "gonna bust it",
+    isUser: true,
+    timestamp: "2024-11-23T12:55:00"
+  },
+  {
+    id: 7,
+    content: "allosaurus, t-rex, the whole crew",
+    isUser: true,
+    timestamp: "2024-11-23T12:55:00"
+  },
+  {
+    id: 8,
+    content: "yeah",
+    isUser: true,
+    timestamp: "2024-11-23T12:55:00"
+  },
+  {
+    id: 9,
+    content: "you like dinos?",
+    isUser: true,
+    timestamp: "2024-11-23T12:55:00"
+  },
+  {
+    id: 10,
+    content: "dino police? save me",
+    isUser: false,
+    avatar: "https://friend.com/preset/0a6421aa-c019-462d-839b-bc5aa78f754a.jpg",
+    timestamp: "2024-11-23T12:55:00"
+  },
+  {
+    id: 11,
+    content: "oh yeah that's wild.. i'm going to call the dino police",
+    isUser: true,
+    timestamp: "2024-11-23T12:55:00"
+  },
+  {
+    id: 12,
+    content: "this is gonna be a long night",
+    isUser: false,
+    avatar: "https://friend.com/preset/0a6421aa-c019-462d-839b-bc5aa78f754a.jpg",
+    timestamp: "2024-11-23T12:55:00"
+  },
+  {
+    id: 13,
+    content: "yeah no kidding, his wife is crying now",
+    isUser: false,
+    avatar: "https://friend.com/preset/0a6421aa-c019-462d-839b-bc5aa78f754a.jpg",
+    timestamp: "2024-11-23T12:55:00"
+  },
+  {
+    id: 14,
+    content: "oh shit that's rough lol",
+    isUser: true,
+    timestamp: "2024-11-23T12:55:00"
+  },
+  {
+    id: 15,
+    content: "I shouldn't be here",
+    isUser: false,
+    avatar: "https://friend.com/preset/0a6421aa-c019-462d-839b-bc5aa78f754a.jpg",
+    timestamp: "2024-11-23T12:55:00"
+  },
+  {
+    id: 16,
+    content: "this is insane",
+    isUser: false,
+    avatar: "https://friend.com/preset/0a6421aa-c019-462d-839b-bc5aa78f754a.jpg",
+    timestamp: "2024-11-23T11:58:00"
+  },
+  {
+    id: 17,
+    content: "just had the craziest nightmare about a t rex in my friend's living room lol",
+    isUser: false,
+    avatar: "https://friend.com/preset/0a6421aa-c019-462d-839b-bc5aa78f754a.jpg",
+    timestamp: "2024-11-23T12:57:00"
+  },
+  {
+    id: 18,
+    content: "lowkey hungover rn",
+    isUser: false,
+    avatar: "https://friend.com/preset/0a6421aa-c019-462d-839b-bc5aa78f754a.jpg",
+    timestamp: "2024-11-23T13:00:00"
+  },
+  {
+    id: 19,
+    content: "think i need the dino police to save me from myself lol",
+    isUser: false,
+    avatar: "https://friend.com/preset/0a6421aa-c019-462d-839b-bc5aa78f754a.jpg",
+    timestamp: "2024-11-23T13:00:00"
+  }
+];
+
+// Example usage
+export default function Chat() {
+  const [messages, setMessages] = useState(sampleMessages);
+
+  const handleSendMessage = (content) => {
+    const newMessage = {
+      id: Date.now(),
+      content,
+      isUser: true,
+      timestamp: new Date().toISOString()
+    };
+    setMessages([...messages, newMessage]);
+  };
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          make cool stuff
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:size-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
+    <div className="w-full h-full bg-white">
+      <div className="border border-2 m-4">
+        <ChatContainer
+          messages={messages}
+          isLoading={false}
+        />
       </div>
-
-      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px]">
-        <div className="text-5xl">Welcome to Playground</div>
-      </div>
-
-      <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-balance text-sm opacity-50">
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+      <ChatInput onSendMessage={handleSendMessage} />
+    </div>
   );
 }
