@@ -2,7 +2,8 @@
 
 import OpenAI from "openai";
 import { ChatCompletionMessageParam } from "openai/resources/index.mjs";
-import { buildSystemPrompt as buildJokerPrompt } from "./templates/joker";
+import { buildSystemPrompt as BM } from "./templates/assistant";
+import { buildSystemPrompt as QM } from "./templates/question_asker";
 
 if (!process.env.OPENAI_API_KEY) {
     throw new Error("Missing OPENAI_API_KEY environment variable");
@@ -19,11 +20,23 @@ async function fetchUser(){
     }
 }
 
+async function fetchCalendarEvents(): Promise<string[]>{
+    return [];
+}
+
+async function fetchReminders(): Promise<string[]>{
+    return ["clean up apartment 7pm", "pick up groceries 10am"];
+}
+
 export async function buildSystemPrompt(){
-    // fetch user's name
+    // fetch data
     const user = await fetchUser();
-    const jokerPrompt = await buildJokerPrompt();
-    return jokerPrompt;
+    const calendarEvents = await fetchCalendarEvents();
+    const reminders = await fetchReminders();
+
+    // build system prompt
+    // return await BM(calendarEvents, reminders);
+    return await QM({});
 }
 
 export async function getAgentResponse(messages: ChatCompletionMessageParam[]): Promise<string> {
