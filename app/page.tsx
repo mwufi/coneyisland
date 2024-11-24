@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ChatContainer } from "./Chat";
 import ChatInput from "./ChatInput";
 import ChatHeader from "./ChatHeader";
-import { getCompletion } from "@/lib/ai/server_openai";
+import { getCompletion, getFirstCompletion } from "@/lib/ai/server_openai";
 import { UIMessage } from "@/lib/ai/types";
 
 let sampleMessages = [
@@ -156,8 +156,19 @@ sampleMessages = [
 
 // Example usage
 export default function Chat() {
-  const [messages, setMessages] = useState([sampleMessages[0]]);
+  const [messages, setMessages] = useState<UIMessage[]>([]);
   const [isTyping, setIsTyping] = useState(false);
+  
+  // Load first message on mount
+  useEffect(() => {
+    if (messages.length === 0) {
+      setIsTyping(true);
+      getFirstCompletion().then((firstMessage) => {
+        setIsTyping(false);
+        setMessages([firstMessage]);
+      });
+    }
+  }, []);
 
   const handleSendMessage = (content: string) => {
     const newMessage: UIMessage = {
